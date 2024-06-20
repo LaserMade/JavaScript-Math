@@ -1,5 +1,7 @@
 #Requires AutoHotkey v2.0+
+
 Class Math extends Object {
+
     ;Euler's number and the base of natural logarithms; approximately 2.718.
     static E := 2.718281828459045
     ;Natural logarithm of 10; approximately 2.303.
@@ -75,7 +77,10 @@ Class Math extends Object {
     static floor(x) => floor(x)
 
     ;Returns the nearest single precision float representation of x.
-    static fround(x) => (x) ;not implemented
+    static fround(x) => Float(x)
+
+    ;Returns the nearest 16 bit precision float representation of x.
+    static fround16(x) => Format("{:.8f}", Float(x))
 
     ;Returns the square root of the sum of squares of its arguments.
     static hypot(arr*) {
