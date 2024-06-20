@@ -1,6 +1,4 @@
-#Requires AutoHotkey v2.0
-#SingleInstance Force
-
+#Requires AutoHotkey v2.0+
 Class Math extends Object {
     ;Euler's number and the base of natural logarithms; approximately 2.718.
     static E := 2.718281828459045
@@ -57,10 +55,9 @@ Class Math extends Object {
 
     ;Returns the smallest integer greater than or equal to x.
     static ceil(x) => ceil(x)
-
-    static clz32(x) {
-        ;not implemented.
-    }
+    
+    ;Returns the number of leading zero bits in the 32-bit binary representation of a number.
+    static clz32(x) =>  32 - StrLen(String(this.ConvertBase(10, 2, x)))
     
     ;Returns the cosine of x.
     static cos(x) => cos(x)
@@ -142,20 +139,37 @@ Class Math extends Object {
     static trunc(x) => x >= 0 ? floor(x) : ceil(x)
 
     /**
-     * The following methods are not contained in the JavaScript Math class but are included here to assist with conversions
+     * The following two methods are in the JavaScript Math class usage examples (as functions) and are included here to assist with trigonometric conversions
+     * If you would like to use them as regular functions rather than static methods then simply move them outside of the class and define them as a normal function.
      */
-    static degToRad(degrees) => (degrees * (Math.PI / 180))
-    static radToDeg(rad) => (rad / (Math.PI / 180))
 
     /**
-     * Credit to jNizM for the ahk v1 version of ConvertBase
-     * and credit to atnbueno for the ahk v2 conversion 
-     * on the AutoHotKey forum: https://www.autohotkey.com/boards/viewtopic.php?t=3925#p21143
-     * 
-     * @example Math.ConvertBase(10, 2, 10) converts 10 to binary ; => 1010
-     * @example Math.ConvertBase(10, 2, 6) converts 6 to binary ; => 110
-     * @example Math.ConvertBase(2, 10, 1000) converts 1000 to decimal ; => 8
+     * Convert degrees to radians
+     * @param degrees 
+     * @returns {Number} 
+     * @example Math.degToRad(180) => 3.1415926535898
      */
+    static degToRad(degrees) => (degrees * (Math.PI / 180))
+
+    /**
+     * Convert radians to degrees
+     * @param radian
+     * @returns {Number} 
+     * @example Math.radToDeg(3.1415926535898) => 180
+     */
+    static radToDeg(radian) => (radian / (Math.PI / 180))
+
+    /**
+     * @description Convert a number from one base to another
+     * @example  
+     * Math.ConvertBase(10, 2, 10) converts 10 to binary ; => 1010
+     * Math.ConvertBase(10, 2, 6) converts 6 to binary ; => 110
+     * Math.ConvertBase(2, 10, 1000) converts 1000 to decimal ; => 8
+     * 
+     * @credit to jNizM for the ahk v1 version of ConvertBase
+     * @credit to atnbueno for the ahk v2 conversion 
+     * on the AutoHotKey forum: https://www.autohotkey.com/boards/viewtopic.php?t=3925#p21143
+    */
     static ConvertBase(InputBase, OutputBase, nptr)
     {
         VarSetStrCapacity(&s, 66)
